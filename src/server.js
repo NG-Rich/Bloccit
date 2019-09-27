@@ -5,5 +5,5 @@ const server = http.createServer(app);
 server.listen(3000);
 
 server.on("listening", () => {
-  console.log("server is listening for requests on port 3000!");
+  console.log("Server is listening for requests on port 3000!");
 });
