@@ -10,12 +10,16 @@
   "author": "Richard Chan",
   "license": "ISC",
   "devDependencies": {
+    "faker": "^4.1.0",
     "jasmine": "^3.5.0",
     "request": "^2.88.0"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dotenv": "^8.1.0",
     "ejs": "^2.7.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^7.12.1",
+    "sequelize": "^5.19.1"
   }
 }
