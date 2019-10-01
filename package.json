@@ -20,6 +20,7 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "pg": "^7.12.1",
-    "sequelize": "^5.19.1"
+    "sequelize": "^5.19.1",
+    "sequelize-cli": "^5.5.1"
   }
 }
