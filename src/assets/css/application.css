@@ -2,6 +2,24 @@ body {
   padding-top: 54px;
 }
 
-.nav-link {
+a.nav-link {
   display: inline;
+}
+
+li.list-flair-item {
+  display: inline;
+  margin: 3px;
+  border-radius: 25px;
+  border: 1px solid;
+  padding: 1px;
+}
+
+a.flair-item {
+  border-radius: 25px;
+  padding: 1px;
+  text-decoration: none;
+}
+
+ul.list-flairs {
+  padding-inline-start: 0px;
 }
