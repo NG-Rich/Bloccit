@@ -15,12 +15,12 @@
           <label for="title">Topic title</label>
 
           <input class= "form-control" type="text" name="title" value="<%= topic.title %>" aria-aria-describedby="titleHelp" placeholder="Enter Title">
-          <small class="text-muted" id="titleHelp">title must be 2 or more characters in length.</small>
+          <small class="text-muted" id="titleHelp">title must be 5 or more characters in length.</small>
         </div>
         <div class="form-group">
           <label for="description">Description</label>
           <textarea name="description" rows="4" class="form-control" placeholder="Enter Description"><%= topic.description %></textarea>
-          <small class="text-muted" id="bodyHelp">body must be 10 or more characters in length.</small>
+          <small class="text-muted" id="descriptionHelp">description must be 10 or more characters in length.</small>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>

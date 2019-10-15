@@ -64,7 +64,7 @@ describe("routes : post", () => {
       };
 
       request.post(options, (err, res, body) => {
-
+        
         Post.findOne({where: {title: "Watching snow melt"}})
         .then((post) => {
           expect(post).not.toBeNull();
@@ -92,6 +92,7 @@ describe("routes : post", () => {
       };
 
       request.post(options, (err, res, body) => {
+
         Post.findOne({where: {title: "a"}})
         .then((post) => {
           expect(post).toBeNull();
