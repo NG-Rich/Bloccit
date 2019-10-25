@@ -64,7 +64,7 @@ describe("routes : post", () => {
            console.log(err);
            done();
          })
-       })
+       });
 
      });
    });
@@ -222,8 +222,6 @@ describe("routes : post", () => {
       });
 
     });
-
-
 
   });// End admin context
 
