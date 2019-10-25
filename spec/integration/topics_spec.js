@@ -37,8 +37,8 @@ describe("routes : topics", () => {
         title: "Javascript Frameworks",
         description: "There is a lot of them"
       })
-      .then((res) => {
-        this.topic = res;
+      .then((topic) => {
+        this.topic = topic;
         done();
       })
       .catch((err) => {

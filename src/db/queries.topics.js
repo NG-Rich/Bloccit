@@ -1,5 +1,6 @@
 const Topic = require("./models").Topic;
 const Post = require("./models").Post;
+const Authorizer = require("../policies/topic");
 
 module.exports = {
 
@@ -39,7 +40,7 @@ module.exports = {
       callback(err);
     })
   },
-  deleteTopic(id, callback) {
+  deleteTopic(req, callback) {
     return Topic.findByPk(req.params.id)
     .then((topic) => {
       const authorized = new Authorizer(req.user, topic).destroy();
