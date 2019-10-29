@@ -193,6 +193,85 @@ describe("routes : comments", () => {
 
     });
 
+    describe("signed in user trying to delete another user's comment", () => {
+      describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
+        beforeEach((done) => {
+          request.get({
+            url: "http://localhost:3000/auth/fake",
+            form: {
+              role: "member",
+              userId: 2
+            }
+          }, (err, res, body) => {
+            done();
+          });
+        });
+
+        it("should not delete another user's comment", (done) => {
+          Comment.findAll()
+          .then((comments) => {
+            const commentCountBeforeDelete = comments.length;
+
+            expect(commentCountBeforeDelete).toBe(1);
+            request.post(`${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+            (err, res, body) => {
+              expect(res.statusCode).toBe(401);
+              Comment.findAll()
+              .then((comments) => {
+                expect(err).toBeNull();
+                expect(comments.length).toBe(commentCountBeforeDelete);
+                done();
+              });
+            });
+          });
+        });
+
+      });
+    });
+
   });// End of user context
+
+  describe("admin user performing CRUD actions for Comment", () => {
+    beforeEach((done) => {
+      User.create({
+        email: "admin@example.com",
+        password: "123456",
+        role: "admin"
+      })
+      .then((user) => {
+        request.get({
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,
+            email: user.email,
+            userId: user.id
+          }
+        }, (err, res, body) => {
+          done();
+        });
+      });
+    });
+
+    it("should delete a user's comment", (done) => {
+      Comment.findAll()
+      .then((comments) => {
+        const commentCountBeforeDelete = comments.length;
+
+        expect(commentCountBeforeDelete).toBe(1);
+
+        request.post(`${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+        (err, res, body) => {
+          expect(res.statusCode).toBe(302);
+          Comment.findAll()
+          .then((comments) => {
+            expect(err).toBeNull();
+            expect(comments.length).toBe(commentCountBeforeDelete - 1);
+            done();
+          });
+        });
+      });
+    });
+
+  });// End of admin context
 
 });
