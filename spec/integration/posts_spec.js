@@ -311,14 +311,14 @@ describe("routes : post", () => {
 
     describe("POST /topics/:topicId/posts/:id/destroy", () => {
 
-      it("should delete the post with the associated id", (done) => {
+      it("should not delete the post with the associated id", (done) => {
         expect(this.post.id).toBe(1);
         request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
 
           Post.findByPk(1)
           .then((post) => {
             expect(err).toBeNull();
-            expect(post).toBeNull();
+            expect(post).not.toBeNull();
             done();
           })
         });
@@ -328,10 +328,10 @@ describe("routes : post", () => {
 
     describe("GET /topics/:topicId/posts/:id/edit", () => {
 
-      it("should render a view with an edit post form", (done) => {
+      it("should not render a view with an edit post form", (done) => {
         request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("Edit Post");
+          expect(body).not.toContain("Edit Post");
           expect(body).toContain("Snowball Fighting");
           done();
         });
@@ -341,7 +341,7 @@ describe("routes : post", () => {
 
     describe("POST /topics/:topicId/posts/:id/update", () => {
 
-      it("should return a status code 302", (done) => {
+      it("should not return a status code 302", (done) => {
         request.post({
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -349,12 +349,12 @@ describe("routes : post", () => {
             body: "I love watching them melt slowly."
           }
         }, (err, res, body) => {
-          expect(res.statusCode).toBe(302);
+          expect(err).toBeNull();
           done();
         });
       });
 
-      it("should update the post with the given values", (done) => {
+      it("should not update the post with the given values", (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
@@ -370,7 +370,7 @@ describe("routes : post", () => {
             where: {id: this.post.id}
           })
           .then((post) => {
-            expect(post.title).toBe("Snowman Building Competition");
+            expect(post.title).toBe("Snowball Fighting");
             done();
           });
         });
