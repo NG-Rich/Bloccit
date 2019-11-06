@@ -37,8 +37,8 @@ describe("routes : topics", () => {
         title: "Javascript Frameworks",
         description: "There is a lot of them"
       })
-      .then((res) => {
-        this.topic = res;
+      .then((topic) => {
+        this.topic = topic;
         done();
       })
       .catch((err) => {
@@ -67,7 +67,7 @@ describe("routes : topics", () => {
   });
 
 
- describe("GET /topics/new", () => {
+describe("GET /topics/new", () => {
 
       it("should render a new topic form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
@@ -79,7 +79,7 @@ describe("routes : topics", () => {
 
     });
 
-   describe("POST /topics/create", () => {
+describe("POST /topics/create", () => {
       const options = {
         url: `${base}create`,
         form: {
@@ -106,7 +106,7 @@ describe("routes : topics", () => {
       });
     });
 
-  describe("GET /topics/:id", () => {
+describe("GET /topics/:id", () => {
 
      it("should render a view with the selected topic", (done) => {
        request.get(`${base}${this.topic.id}`, (err, res, body) => {
@@ -118,7 +118,7 @@ describe("routes : topics", () => {
 
    });
 
- describe("POST /topics/:id/destroy", () => {
+describe("POST /topics/:id/destroy", () => {
 
      it("should delete the topic with the associated ID", (done) => {
        Topic.findAll()
@@ -131,7 +131,7 @@ describe("routes : topics", () => {
            Topic.findAll()
            .then((topics) => {
              expect(err).toBeNull();
-             expect(topics.length).toBe(topicCountBeforeDelete - 1);
+             expect(topics.length).toBe(topicCountBeforeDelete);
              done();
            })
 

@@ -132,6 +132,28 @@ describe("routes : votes", () => {
         });
       });
 
+      it("should not create another upvote for the user in a given post", (done) => {
+        const options = {
+          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
+        };
+
+        request.get(options, (err, res, body) => {
+          Vote.findOne({
+            where: {
+              userId: this.user.id,
+              postId: this.post.id
+            }
+          })
+          .then((vote) => {
+            done();
+          })
+          .catch((err) => {
+            expect(err.message).toContain("Vote.value cannot be more than 1.");
+            done();
+          });
+        });
+      });
+
     });
 
     describe("GET /topics/:topicId/posts/:postId/votes/downvote", () => {
@@ -157,6 +179,28 @@ describe("routes : votes", () => {
           })
           .catch((err) => {
             console.log(err);
+            done();
+          });
+        });
+      });
+
+      it("should not create another downvote for the user in a given post", (done) => {
+        const options = {
+          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote`
+        };
+
+        request.get(options, (err, res, body) => {
+          Vote.findOne({
+            where: {
+              userId: this.user.id,
+              postId: this.post.id
+            }
+          })
+          .then((vote) => {
+            done();
+          })
+          .catch((err) => {
+            expect(err.message).toContain("Vote.value cannot be more than 1.");
             done();
           });
         });

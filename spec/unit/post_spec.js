@@ -2,6 +2,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
+const Vote = require("../../src/db/models").Vote;
 
 describe("POST", () => {
 
@@ -9,6 +10,7 @@ describe("POST", () => {
     this.topic;
     this.post;
     this.user;
+    this.vote;
 
     sequelize.sync({force: true}).then((res) => {
 
@@ -40,7 +42,7 @@ describe("POST", () => {
         })
       })
     });
-  });
+  });// End of beforeEach
 
   describe("#create()", () => {
 
@@ -152,5 +154,89 @@ describe("POST", () => {
     });
 
   });
+
+  describe("#getPoints()", () => {
+
+    it("should return 0 if the assigned post has no votes", (done) => {
+      this.post.getVotes()
+      .then((votes) => {
+        this.post.votes = votes;
+        expect(this.post.getPoints()).toBe(0);
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      })
+    });
+
+    it("should return the number of votes to an assigned post", (done) => {
+      Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+        expect(vote.value).toBe(1);
+        expect(vote.userId).toBe(this.user.id);
+        expect(vote.postId).toBe(this.post.id);
+        this.post.getVotes()
+        .then((votes) => {
+          this.post.votes = votes;
+          expect(this.post.getPoints()).toBe(1);
+          done();
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+
+  });
+
+  describe("#hasUpvoteFor()", () => {
+
+    it("should return true if user has an upvote to assigned post", (done) => {
+      Vote.create({
+        value: 1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+        this.post.hasUpvoteFor(this.user.id, (res) => {
+          expect(res).toBeTruthy();
+          done();
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+
+  });
+
+  describe("#hasDownvoteFor()", () => {
+
+    it("should return true if user has a downvote to assigned post", (done) => {
+      Vote.create({
+        value: -1,
+        userId: this.user.id,
+        postId: this.post.id
+      })
+      .then((vote) => {
+        this.post.hasDownvoteFor(this.user.id, (res) => {
+          expect(res).toBeTruthy();
+          done();
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+
+  })
 
 });
