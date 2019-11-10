@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       return models.Favorite.create({
         userId: post.userId,
         postId: post.id
+      }) && models.Vote.create({
+        value: 1,
+        userId: post.userId,
+        postId: post.id
       });
     });
   };
