@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Comment.belongsTo(models.User, {
       foreignKey: "userId",
-      onDelte: "CASCADE"
+      onDelete: "CASCADE"
     });
     Comment.addScope("lastFiveFor", (userId) => {
       return {
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         limit: 5,
         order: [["createdAt", "DESC"]]
       }
-    });    
+    });
   };
   return Comment;
 };
