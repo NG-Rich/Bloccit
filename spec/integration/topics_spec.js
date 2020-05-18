@@ -179,7 +179,7 @@ describe("POST /topics/:id/destroy", () => {
   });
 
 
-   describe("member user performing CRUD actions for Topic", () => {
+  describe("member user performing CRUD actions for Topic", () => {
 
      beforeEach((done) => {
       authorizeUser("member", done);
